@@ -10,6 +10,7 @@ import session from "koa-session";
 import * as handlers from "./handlers/index";
 dotenv.config();
 const port = parseInt(process.env.PORT, 10) || 8081;
+const host = "0.0.0.0"
 const dev = process.env.NODE_ENV !== "production";
 const app = next({
   dev
@@ -80,7 +81,7 @@ app.prepare().then(() => {
   });
   server.use(router.allowedMethods());
   server.use(router.routes());
-  server.listen(port, () => {
-    console.log(`> Ready on http://localhost:${port}`);
+  server.listen(port,host, () => {
+    console.log(`> Ready on http://${host}:${port}`);
   });
 });
