@@ -9,8 +9,8 @@ import Router from "koa-router";
 import session from "koa-session";
 import * as handlers from "./handlers/index";
 dotenv.config();
-const port = parseInt(process.env.PORT, 10) || 8081;
-const host = "0.0.0.0"
+const port = parseInt(process.env.PORT, 10) || 3000;
+const host = "127.0.0.1"
 const dev = process.env.NODE_ENV !== "production";
 const app = next({
   dev
