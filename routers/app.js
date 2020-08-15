@@ -17,6 +17,7 @@ module.exports={
                 shopObject.session = session
                 shopObject.locale = locale
                 cacheShopify.set(ctx.query.shop,shopObject)
+                console.log(shopObject)
             }
             ctx.respond = false;
             ctx.res.statusCode = 200;
