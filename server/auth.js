@@ -55,7 +55,7 @@ const passportAuth=(server)=>{
             ctx.redirect('/')
         }
     }))
-    server.use(route.get('/main', function(ctx) {
+    server.use(route.get('/app/*', function(ctx) {
         if (!ctx.isAuthenticated()) {
             ctx.redirect('/')
         }
@@ -67,7 +67,7 @@ const passportAuth=(server)=>{
     server.use(route.get('/auth/google', passport.authenticate("google", {scope: config.googleScope})))
     server.use(route.get('/auth/google/callback',
         passport.authenticate('google', {
-            successRedirect: '/main',
+            successRedirect: '/app/main',
             failureRedirect: '/'
         })
     ))
