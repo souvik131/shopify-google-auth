@@ -1,0 +1,77 @@
+import  passport from  'koa-passport'
+import convert from "koa-convert";
+import session from 'koa-generic-session';
+import bodyParser from "koa-bodyparser"
+import route from 'koa-route'
+import { Strategy as GoogleStrategy } from "passport-google-oauth2"
+import * as config from "../config"
+const { GOOGLE_ID,GOOGLE_SECRET,HOST} = process.env;
+
+
+const passportAuth=(server)=>{
+    server.proxy = true
+    server.use(
+      convert(session(
+        {
+          sameSite: "none",
+          secure: true
+        },
+        server
+      ))
+    );
+    server.use(bodyParser())
+    passport.serializeUser(function(user, done) {
+            done(null, user)
+    })
+    passport.deserializeUser(function(obj, done) {
+            done(null, obj)
+    })
+    passport.use(new GoogleStrategy({
+        clientId: GOOGLE_ID,
+        clientSecret: GOOGLE_SECRET,
+        callbackURL: `${HOST}/auth/google/callback`,
+        passReqToCallback   : true
+    },
+    function(request,accessToken,refreshToken,profile,done) {
+        process.nextTick(function () {
+            console.log("AUTHORIZED GOOGLE");
+            return done(null, profile);
+        });
+    }
+    ))
+    server.use(passport.initialize())
+    server.use(passport.session())
+    server.use(route.post('/app/*', function(ctx, next) {
+        return passport.authenticate('local', function(user, info, status) {
+        if (user === false) {
+            ctx.status = 401
+            ctx.body = { success: false }
+        } else {
+            ctx.body = { success: true }
+            return ctx.login(user)
+        }
+        })(ctx, next)
+    }))
+    server.use(route.get('/logout', function(ctx) {
+            ctx.logout()
+            ctx.redirect('/')
+    }))
+    server.use(route.get('/auth/google', passport.authenticate("google", {scope: config.googleScope})))
+    server.use(route.get('/auth/google/callback',
+        passport.authenticate('google', {
+            successRedirect: '/app/main',
+            failureRedirect: '/'
+        })
+    ))
+    // Require authentication for now
+    server.use(function(ctx, next) {
+        if (ctx.isAuthenticated()) {
+            return next()
+        } else {
+            ctx.redirect('/')
+        }
+    })
+}
+
+
+export default passportAuth;
