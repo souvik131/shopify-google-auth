@@ -1,8 +1,9 @@
 import  passport from  'koa-passport'
-import convert from "koa-convert";
-import session from 'koa-generic-session';
+// import convert from "koa-convert";
+// import session from 'koa-generic-session';
 import bodyParser from "koa-bodyparser"
 import route from 'koa-route'
+import session from "koa-session";
 import { Strategy as GoogleStrategy } from "passport-google-oauth2"
 import * as config from "../config"
 import dotenv from "dotenv";
@@ -13,13 +14,15 @@ const { GOOGLE_ID,GOOGLE_SECRET,HOST} = process.env;
 const passportAuth=(server)=>{
     server.proxy = true
     server.use(
-      convert(session(
+    //   convert(
+          session(
         {
           sameSite: "none",
           secure: true
         },
         server
-      ))
+      )
+    //   )
     );
     server.use(bodyParser())
     passport.serializeUser(function(user, done) {
@@ -44,15 +47,18 @@ const passportAuth=(server)=>{
     server.use(passport.initialize())
     server.use(passport.session())
     server.use(route.post('/app/*', function(ctx, next) {
-        return passport.authenticate('local', function(user, info, status) {
-        if (user === false) {
-            ctx.status = 401
-            ctx.body = { success: false }
+        if (ctx.isAuthenticated()) {
+            return next()
         } else {
-            ctx.body = { success: true }
-            return ctx.login(user)
+            ctx.redirect('/')
         }
-        })(ctx, next)
+    }))
+    server.use(route.get('/app/*', function(ctx, next) {
+        if (ctx.isAuthenticated()) {
+            return next()
+        } else {
+            ctx.redirect('/')
+        }
     }))
     server.use(route.get('/logout', function(ctx) {
             ctx.logout()
@@ -65,14 +71,14 @@ const passportAuth=(server)=>{
             failureRedirect: '/'
         })
     ))
-    // Require authentication for now
-    server.use(function(ctx, next) {
-        if (ctx.isAuthenticated()) {
-            return next()
-        } else {
-            ctx.redirect('/')
-        }
-    })
+    // // Require authentication for now
+    // server.use(function(ctx, next) {
+    //     if (ctx.isAuthenticated()) {
+    //         return next()
+    //     } else {
+    //         ctx.redirect('/')
+    //     }
+    // })
 }
 
 
