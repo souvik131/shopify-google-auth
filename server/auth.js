@@ -59,13 +59,15 @@ const passportAuth=(server)=>{
             failureRedirect: '/'
         })
     ))
-    const restrictAccess = (req, res, next) => {
+ 
+    server.use("/login", (req, res, next) => {
         if (!req.isAuthenticated()) return res.redirect("/");
         next();
-    };
-    
-    server.use("/login", restrictAccess);
-    server.use("/view", restrictAccess);
+    });
+    server.use("/view", (req, res, next) => {
+        if (!req.isAuthenticated()) return res.redirect("/");
+        next();
+    });
 
 
     //Logout google
