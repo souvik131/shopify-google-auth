@@ -55,11 +55,11 @@ const passportAuth=(server)=>{
             ctx.redirect('/')
         }
     }))
-    server.use(route.get('/main', function(ctx) {
-        if (!ctx.isAuthenticated()) {
-            ctx.redirect('/')
-        }
-    }))
+    // server.use(route.get('/main', function(ctx) {
+    //     if (!ctx.isAuthenticated()) {
+    //         ctx.redirect('/')
+    //     }
+    // }))
     server.use(route.get('/logout', function(ctx) {
             ctx.logout()
             ctx.redirect('/')
