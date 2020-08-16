@@ -5,6 +5,8 @@ import bodyParser from "koa-bodyparser"
 import route from 'koa-route'
 import { Strategy as GoogleStrategy } from "passport-google-oauth2"
 import * as config from "../config"
+import dotenv from "dotenv";
+dotenv.config();
 const { GOOGLE_ID,GOOGLE_SECRET,HOST} = process.env;
 
 
