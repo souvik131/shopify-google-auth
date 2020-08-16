@@ -27,7 +27,7 @@ const passportAuth=(server)=>{
             done(null, obj)
     })
     passport.use(new GoogleStrategy({
-        clientId: GOOGLE_ID,
+        clientID: GOOGLE_ID,
         clientSecret: GOOGLE_SECRET,
         callbackURL: `${HOST}/auth/google/callback`,
         passReqToCallback   : true
