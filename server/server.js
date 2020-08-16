@@ -69,30 +69,31 @@ async function afterAuth(ctx) {
     secure: true,
     sameSite: "none"
   });
+  ctx.cookies.set("creds", shop, {
+    accessToken: accessToken
+  });
   ctx.redirect("/");
 }
 
 
 async function getProfile(shop,accessToken){
-  return new Promise(async (resolve,reject) => {
-        let reqUrl=`https://${shop}/admin/api/graphql.json`
-        let result = await fetch(reqUrl, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "X-Shopify-Access-Token":accessToken
-          },
-          body: JSON.stringify({
-            query: `{
-                shop {
-                  name
-                  url
-                  email
-                }
-              }`
-          })
-        })
-        const profile = await result.json()
-        resolve(profile.data.shop)
-  })
+    let reqUrl=`https://${shop}/admin/api/graphql.json`
+    let result = await fetch(reqUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-Shopify-Access-Token":accessToken
+      },
+      body: JSON.stringify({
+        query: `{
+            shop {
+              name
+              url
+              email
+            }
+          }`
+      })
+    })
+    const profile = await result.json()
+    return profile.data.shop
 }

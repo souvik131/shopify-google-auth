@@ -16,6 +16,7 @@ class MyApp extends App {
   render() {
     const { Component, pageProps } = this.props;
     const shopOrigin = Cookies.get("shopOrigin");
+    const creds = Cookies.get("creds")
     return (
       <Container>
         <AppProvider i18n={translations}>
@@ -23,6 +24,7 @@ class MyApp extends App {
             config={{
               apiKey: API_KEY,
               shopOrigin: shopOrigin,
+              creds:creds,
               forceRedirect: true
             }}
           >
