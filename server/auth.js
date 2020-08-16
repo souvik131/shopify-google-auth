@@ -55,7 +55,7 @@ const passportAuth=(server)=>{
     //Google confoims login
     server.use(route.get('/auth/google/callback',
         passport.authenticate('google', {
-            successRedirect: '/app/login',
+            successRedirect: '/login',
             failureRedirect: '/'
         })
     ))
@@ -68,11 +68,17 @@ const passportAuth=(server)=>{
     }))
 
     //Check authentication for all static requests
-    server.use(route.get('/app/*', (ctx) => {
+    server.use(route.get('/login', (ctx) => {
         if (!ctx.isAuthenticated()) {
             ctx.redirect('/')
         }
     }))
+    server.use(route.get('/view', (ctx) => {
+        if (!ctx.isAuthenticated()) {
+            ctx.redirect('/')
+        }
+    }))
+
 
     //Logout google
     server.use(route.get('/logout', (ctx) => {
