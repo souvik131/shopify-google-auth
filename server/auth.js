@@ -55,7 +55,7 @@ const passportAuth=(server)=>{
     //Google confoims login
     server.use(route.get('/auth/google/callback',
         passport.authenticate('google', {
-            successRedirect: '/loggedIn',
+            successRedirect: '/app/login',
             failureRedirect: '/'
         })
     ))

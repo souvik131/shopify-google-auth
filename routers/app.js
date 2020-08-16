@@ -18,9 +18,9 @@ module.exports={
             ctx.res.statusCode = 200;
         });
 
-        router.get("/loggedIn", verifyRequest(), async ctx => {
+        router.get("/app/login", verifyRequest(), async ctx => {
             await handle(ctx.req, ctx.res);
-            ctx.redirect(`https://${SHOP}.myshopify.com/admin/apps/${APP_NAME}/app/main`);
+            ctx.redirect(`https://${SHOP}.myshopify.com/admin/apps/${APP_NAME}/app/view`);
         });
 
         router.get("*", verifyRequest(), async ctx => {
