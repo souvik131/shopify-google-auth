@@ -59,9 +59,9 @@ const passportAuth=(server)=>{
             failureRedirect: '/'
         })
     ))
-    const restrictAccess = (ctx, next) => {
-        // if (!ctx.isAuthenticated()) ctx.redirect("/");
-        next();
+    const restrictAccess = (ctx) => {
+        if (!ctx.isAuthenticated()) ctx.redirect("/");
+        // next();
     };
     
 
