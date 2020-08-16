@@ -18,10 +18,10 @@ module.exports={
             ctx.res.statusCode = 200;
         });
 
-        router.get("/login", verifyRequest(), async ctx => {
-            await handle(ctx.req, ctx.res);
-            ctx.redirect(`https://${SHOP}.myshopify.com/admin/apps/${APP_NAME}/view`);
-        });
+        // router.get("/login", verifyRequest(), async ctx => {
+        //     await handle(ctx.req, ctx.res);
+        //     ctx.redirect(`https://${SHOP}.myshopify.com/admin/apps/${APP_NAME}/view`);
+        // });
 
         router.get("*", verifyRequest(), async ctx => {
             await handle(ctx.req, ctx.res);

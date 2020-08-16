@@ -60,24 +60,24 @@ const passportAuth=(server)=>{
         })
     ))
 
-    //Check authentication for all api requests
-    server.use(route.post('/api/*', (ctx) => {
-        if (!ctx.isAuthenticated()) {
-            ctx.redirect('/')
-        }
-    }))
+    // //Check authentication for all api requests
+    // server.use(route.post('/api/*', (ctx) => {
+    //     if (!ctx.isAuthenticated()) {
+    //         ctx.redirect('/')
+    //     }
+    // }))
 
-    //Check authentication for all static requests
-    server.use(route.get('/login', (ctx) => {
-        if (!ctx.isAuthenticated()) {
-            ctx.redirect('/')
-        }
-    }))
-    server.use(route.get('/view', (ctx) => {
-        if (!ctx.isAuthenticated()) {
-            ctx.redirect('/')
-        }
-    }))
+    // //Check authentication for all static requests
+    // server.use(route.get('/login', (ctx) => {
+    //     if (!ctx.isAuthenticated()) {
+    //         ctx.redirect('/')
+    //     }
+    // }))
+    // server.use(route.get('/view', (ctx) => {
+    //     if (!ctx.isAuthenticated()) {
+    //         ctx.redirect('/')
+    //     }
+    // }))
 
 
     //Logout google
