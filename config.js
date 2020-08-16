@@ -1,5 +1,5 @@
 module.exports={
-    port :3000,
+    port :3100,
     host :"127.0.0.1",
     googleScope:[
         "https://www.googleapis.com/auth/plus.login",
