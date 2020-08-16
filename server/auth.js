@@ -59,25 +59,13 @@ const passportAuth=(server)=>{
             failureRedirect: '/'
         })
     ))
-
-    // //Check authentication for all api requests
-    // server.use(route.post('/api/*', (ctx) => {
-    //     if (!ctx.isAuthenticated()) {
-    //         ctx.redirect('/')
-    //     }
-    // }))
-
-    // //Check authentication for all static requests
-    // server.use(route.get('/login', (ctx) => {
-    //     if (!ctx.isAuthenticated()) {
-    //         ctx.redirect('/')
-    //     }
-    // }))
-    // server.use(route.get('/view', (ctx) => {
-    //     if (!ctx.isAuthenticated()) {
-    //         ctx.redirect('/')
-    //     }
-    // }))
+    const restrictAccess = (req, res, next) => {
+        if (!req.isAuthenticated()) return res.redirect("/");
+        next();
+    };
+    
+    server.use("/login", restrictAccess);
+    server.use("/view", restrictAccess);
 
 
     //Logout google
