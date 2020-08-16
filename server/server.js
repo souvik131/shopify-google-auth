@@ -11,6 +11,9 @@ import { init as routerInit}  from "../routers/app"
 import * as config from  "../config"
 import * as cacheShopify from "../cache/shopify"
 import passportAuth from "./auth"
+import  { registerWebhook}  from '@shopify/koa-shopify-webhooks';
+const getSubscriptionUrl = require('./getSubscriptionUrl');
+
 
 dotenv.config();
 const port = parseInt(process.env.PORT, 10) || config.port;
@@ -18,7 +21,7 @@ const host = config.host
 const dev = process.env.NODE_ENV !== "production";
 const app = next({ dev });
 const handle = app.getRequestHandler();
-const { SHOPIFY_API_SECRET, SHOPIFY_API_KEY, SCOPES } = process.env;
+const { SHOPIFY_API_SECRET, SHOPIFY_API_KEY, SCOPES ,HOST} = process.env;
 
 
 
@@ -36,12 +39,13 @@ const { SHOPIFY_API_SECRET, SHOPIFY_API_KEY, SCOPES } = process.env;
       afterAuth:afterAuth
     })
   );
+
   server.use(
     graphQLProxy({
       version: ApiVersion.October19
     })
   );
-  routerInit(router,handle);
+  routerInit(router,process.env,handle);
   server.use(router.allowedMethods());
   server.use(router.routes());
   server.listen(port,host, () => console.log(`> Ready on http://${host}:${port}`));
@@ -61,10 +65,21 @@ async function afterAuth(ctx) {
     secure: true,
     sameSite: "none"
   });
-  ctx.cookies.set("creds", shop, {
-    accessToken: accessToken
+  const registration = await registerWebhook({
+    address: `${HOST}/webhooks/products/create`,
+    topic: 'PRODUCTS_CREATE',
+    accessToken,
+    shop,
+    apiVersion: ApiVersion.October19
   });
-  ctx.redirect("/");
+
+  if (registration.success) {
+    console.log('Successfully registered webhook!');
+  } else {
+    console.log('Failed to register webhook', registration.result);
+  }
+  await getSubscriptionUrl(ctx, accessToken, shop);
+  // ctx.redirect("/");
 }
 
 

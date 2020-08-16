@@ -7,6 +7,7 @@ import session from "koa-session";
 import { Strategy as GoogleStrategy } from "passport-google-oauth2"
 import * as config from "../config"
 import dotenv from "dotenv";
+import * as cacheGoogle from "../cache/google"
 dotenv.config();
 const { GOOGLE_ID,GOOGLE_SECRET,HOST} = process.env;
 
@@ -32,53 +33,52 @@ const passportAuth=(server)=>{
             done(null, obj)
     })
     passport.use(new GoogleStrategy({
-        clientID: GOOGLE_ID,
-        clientSecret: GOOGLE_SECRET,
-        callbackURL: `${HOST}/auth/google/callback`,
-        passReqToCallback   : true
-    },
-    function(request,accessToken,refreshToken,profile,done) {
-        process.nextTick(function () {
-            console.log("AUTHORIZED GOOGLE");
-            console.log(profile)
-            console.log(accessToken)
-            return done(null, profile);
-        });
-    }
+            clientID: GOOGLE_ID,
+            clientSecret: GOOGLE_SECRET,
+            callbackURL: `${HOST}/auth/google/callback`,
+            passReqToCallback   : true
+        },
+        (request,accessToken,refreshToken,profile,done) =>{
+            process.nextTick(_=> {
+                console.log("AUTHORIZED GOOGLE");
+                return done(null, profile);
+            });
+        }
     ))
+
     server.use(passport.initialize())
     server.use(passport.session())
-    server.use(route.post('/api/*', function(ctx, next) {
-        if (ctx.isAuthenticated()) {
-            return next()
-        } else {
-            ctx.redirect('/')
-        }
-    }))
-    server.use(route.get('/app/*', function(ctx) {
+
+    //Start Login by redirecting to Google
+    server.use(route.get('/auth/google', passport.authenticate("google", {scope: config.googleScope})))
+
+    //Google confoims login
+    server.use(route.get('/auth/google/callback',
+        passport.authenticate('google', {
+            successRedirect: '/loggedIn',
+            failureRedirect: '/'
+        })
+    ))
+
+    //Check authentication for all api requests
+    server.use(route.post('/api/*', (ctx) => {
         if (!ctx.isAuthenticated()) {
             ctx.redirect('/')
         }
     }))
-    server.use(route.get('/logout', function(ctx) {
+
+    //Check authentication for all static requests
+    server.use(route.get('/app/*', (ctx) => {
+        if (!ctx.isAuthenticated()) {
+            ctx.redirect('/')
+        }
+    }))
+
+    //Logout google
+    server.use(route.get('/logout', (ctx) => {
             ctx.logout()
             ctx.redirect('/')
     }))
-    server.use(route.get('/auth/google', passport.authenticate("google", {scope: config.googleScope})))
-    server.use(route.get('/auth/google/callback',
-        passport.authenticate('google', {
-            successRedirect: '/app/main',
-            failureRedirect: '/'
-        })
-    ))
-    // // Require authentication for now
-    // server.use(function(ctx, next) {
-    //     if (ctx.isAuthenticated()) {
-    //         return next()
-    //     } else {
-    //         ctx.redirect('/')
-    //     }
-    // })
 }
 
 
