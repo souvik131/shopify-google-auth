@@ -40,20 +40,22 @@ const passportAuth=(server)=>{
     function(request,accessToken,refreshToken,profile,done) {
         process.nextTick(function () {
             console.log("AUTHORIZED GOOGLE");
+            console.log(profile)
+            console.log(accessToken)
             return done(null, profile);
         });
     }
     ))
     server.use(passport.initialize())
     server.use(passport.session())
-    server.use(route.post('/app/*', function(ctx, next) {
+    server.use(route.post('/api/*', function(ctx, next) {
         if (ctx.isAuthenticated()) {
             return next()
         } else {
             ctx.redirect('/')
         }
     }))
-    server.use(route.get('/app/*', function(ctx) {
+    server.use(route.get('/main', function(ctx) {
         if (!ctx.isAuthenticated()) {
             ctx.redirect('/')
         }
@@ -65,7 +67,7 @@ const passportAuth=(server)=>{
     server.use(route.get('/auth/google', passport.authenticate("google", {scope: config.googleScope})))
     server.use(route.get('/auth/google/callback',
         passport.authenticate('google', {
-            successRedirect: '/app/main',
+            successRedirect: '/main',
             failureRedirect: '/'
         })
     ))
