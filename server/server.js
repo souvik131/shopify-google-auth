@@ -6,11 +6,11 @@ import graphQLProxy, { ApiVersion } from "@shopify/koa-shopify-graphql-proxy";
 import Koa from "koa";
 import next from "next";
 import Router from "koa-router";
-import session from "koa-session";
-import * as handlers from "./handlers/index";
-import * as cacheShopify from "../cache/shopify"
+// import session from "koa-session";
 import { init as routerInit}  from "../routers/app"
 import * as config from  "../config"
+import * as cacheShopify from "../cache/shopify"
+import passportAuth from "./auth"
 
 dotenv.config();
 const port = parseInt(process.env.PORT, 10) || config.port;
@@ -26,15 +26,7 @@ const { SHOPIFY_API_SECRET, SHOPIFY_API_KEY, SCOPES } = process.env;
   await app.prepare();
   const server = new Koa();
   const router = new Router();
-  server.use(
-    session(
-      {
-        sameSite: "none",
-        secure: true
-      },
-      server
-    )
-  );
+  passportAuth(server);
   server.keys = [SHOPIFY_API_SECRET];
   server.use(
     createShopifyAuth({

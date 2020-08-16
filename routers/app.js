@@ -22,6 +22,20 @@ module.exports={
             ctx.respond = false;
             ctx.res.statusCode = 200;
         });
+
+        router.get("/app/main", verifyRequest(), async ctx => {
+            await handle(ctx.req, ctx.res);
+            if(ctx.query.shop){
+                const {session,locale} = ctx.query
+                let shopObject = cacheShopify.get(ctx.query.shop)
+                shopObject.session = session
+                shopObject.locale = locale
+                cacheShopify.set(ctx.query.shop,shopObject)
+                console.log(shopObject)
+            }
+            ctx.respond = false;
+            ctx.res.statusCode = 200;
+        });
     }
 
 }

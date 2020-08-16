@@ -2,7 +2,7 @@ import { Heading, Page } from "@shopify/polaris";
 
 const Index = () => (
   <Page>
-    <Heading>Shopify app with Node and React 🎉</Heading>
+    <Heading>Welcome to uncurbed. Please Login 🎉</Heading>
   </Page>
 );
 
