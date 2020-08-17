@@ -7,12 +7,12 @@ import Koa from "koa";
 import next from "next";
 import Router from "koa-router";
 // import session from "koa-session";
-import { init as routerInit}  from "../routers/app"
+import { init as routerInit}  from "./router"
 import * as config from  "../config"
 import * as cacheShopify from "../cache/shopify"
 import passportAuth from "./auth"
 import  { registerWebhook}  from '@shopify/koa-shopify-webhooks';
-const getSubscriptionUrl = require('./getSubscriptionUrl');
+const getSubscriptionUrl = require('./handlers/mutations/get-subscription-url');
 
 
 dotenv.config();
