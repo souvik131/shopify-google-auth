@@ -38,6 +38,7 @@
     "isomorphic-fetch": "^2.1.1",
     "js-cookie": "^2.2.1",
     "koa": "^2.8.2",
+    "koa-body": "^4.2.0",
     "koa-bodyparser": "^4.3.0",
     "koa-convert": "^1.2.0",
     "koa-generic-session": "^2.0.4",
@@ -79,5 +80,8 @@
       "prettier --write",
       "git add"
     ]
-  }
+  },
+  "browser":{
+    "child_process": false
+  }  
 }

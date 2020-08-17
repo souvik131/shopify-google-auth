@@ -40,7 +40,7 @@ const passportAuth=(server)=>{
         },
         (request,accessToken,refreshToken,profile,done) =>{
             process.nextTick(_=> {
-                console.log("AUTHORIZED GOOGLE");
+                console.log("AUTHORIZED GOOGLE",request.query,request.params);
                 return done(null, profile);
             });
         }
