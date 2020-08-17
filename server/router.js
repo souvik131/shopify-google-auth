@@ -1,6 +1,5 @@
 
 import { verifyRequest } from "@shopify/koa-shopify-auth";
-import * as cacheShopify from "../cache/shopify"
 import  {receiveWebhook}  from '@shopify/koa-shopify-webhooks';
 
 module.exports={
@@ -12,23 +11,8 @@ module.exports={
           console.log('received webhook: ', ctx.state.webhook);
         });
 
-        router.get("/_next/static/*", verifyRequest(), async ctx => {
-            await handle(ctx.req, ctx.res);
-            ctx.respond = false;
-            ctx.res.statusCode = 200;
-        });
-
-
         router.get("*", verifyRequest(), async ctx => {
             await handle(ctx.req, ctx.res);
-            if(ctx.query.shop){
-                const {session,locale} = ctx.query
-                let shopObject = cacheShopify.get(ctx.query.shop)
-                shopObject.session = session
-                shopObject.locale = locale
-                cacheShopify.set(ctx.query.shop,shopObject)
-                console.log(shopObject)
-            }
             ctx.respond = false;
             ctx.res.statusCode = 200;
         });
