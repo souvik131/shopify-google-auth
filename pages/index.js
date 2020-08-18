@@ -1,10 +1,10 @@
-import { Heading,Link, Page,Spinner } from '@shopify/polaris';
+import { Heading,Link, Page,SkeletonBodyText } from '@shopify/polaris';
 import { useEffect, useState } from 'react';
 
 export default function Index(statesData) {
 
   const [states, setStates] = useState(statesData);
-  
+
   useEffect(() => {
     if(statesData.loading===true) {
     ;(async()=>{
@@ -17,7 +17,7 @@ export default function Index(statesData) {
  
   return (
     states.loading?
-      <Spinner accessibilityLabel="Loading..." size="large" color="teal" />
+      <SkeletonBodyText />
       :(states.loggedIn?
         <Page>
           <Heading>Congrats, you are logged in! 🎉</Heading> 
