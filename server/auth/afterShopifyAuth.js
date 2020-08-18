@@ -42,7 +42,7 @@ async function afterShopifyAuth(ctx) {
       console.log('Failed to register webhook', registration.result);
     }
 
-    ctx.redirect(`https://${shop}.myshopify.com/admin/apps/${APP_NAME}`);
+    ctx.redirect(`https://${shop}/admin/apps/${APP_NAME}`);
     // await getSubscriptionUrl(ctx, accessToken, shop);
     // ctx.redirect("/");
 }
