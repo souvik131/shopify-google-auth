@@ -6,12 +6,12 @@ import graphQLProxy, { ApiVersion } from "@shopify/koa-shopify-graphql-proxy";
 import Koa from "koa";
 import next from "next";
 import Router from "koa-router";
-// import session from "koa-session";
 import { init as routerInit}  from "./router"
 import * as config from  "../config"
 import * as cache from "../cache/app"
-import passportAuth from "./auth"
+import passportAuth from "./googleAuth"
 import  { registerWebhook}  from '@shopify/koa-shopify-webhooks';
+import jwt from 'jsonwebtoken'
 const getSubscriptionUrl = require('./handlers/mutations/get-subscription-url');
 
 
@@ -21,7 +21,7 @@ const host = config.host
 const dev = process.env.NODE_ENV !== "production";
 const app = next({ dev });
 const handle = app.getRequestHandler();
-const { SHOPIFY_API_SECRET, SHOPIFY_API_KEY, SCOPES ,HOST} = process.env;
+const { SHOPIFY_API_SECRET, SHOPIFY_API_KEY, SCOPES ,HOST,JWT_SECRET} = process.env;
 
 
 
@@ -59,8 +59,14 @@ async function afterAuth(ctx) {
   const { shop, accessToken, _expire } = ctx.session;
   const { name,url,email } = await getProfile(shop,accessToken);
   cache.set(shop,{ code, state ,shop, accessToken, _expire, name, url, email })
+  const jwtAccessToken = jwt.sign({shop:shop},JWT_SECRET)
+  ctx.cookies.set("jwtAccessToken", jwtAccessToken, {
+    httpOnly: true,
+    secure: true,
+    sameSite: "none"
+  });
   ctx.cookies.set("shopOrigin", shop, {
-    httpOnly: false,
+    httpOnly: true,
     secure: true,
     sameSite: "none"
   });
@@ -77,7 +83,7 @@ async function afterAuth(ctx) {
   } else {
     console.log('Failed to register webhook', registration.result);
   }
-  await getSubscriptionUrl(ctx, accessToken, shop);
+  // await getSubscriptionUrl(ctx, accessToken, shop);
   // ctx.redirect("/");
 }
 
