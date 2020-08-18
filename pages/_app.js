@@ -33,7 +33,7 @@ class MyApp extends App {
 
   render() {
     const { Component, pageProps } = this.props;
-    const shopOrigin = this.props.shop
+    const shopOrigin = this.props.shop||Cookies.get("shopOrigin");
     return (
       <Container>
         <AppProvider i18n={translations}>
