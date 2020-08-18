@@ -24,7 +24,7 @@ async function afterShopifyAuth(ctx) {
     sameSite: "none"
   });
   ctx.cookies.set("shopOrigin", shop, {
-    httpOnly: true,
+    httpOnly: false,
     secure: true,
     sameSite: "none"
   });
