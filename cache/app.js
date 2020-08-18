@@ -10,7 +10,46 @@ let inMemory = {
             url: 'https://the-uncurbed.myshopify.com',
             email: 'souvik131@gmail.com',
             session: 'd7641a5380a7457e6caf27ef9dddfe26085a73198ac3c72f7153d59111088344',
-            locale: 'en'
+            locale: 'en',
+            refreshToken: undefined,
+            accessToken: 'ya29.a0AfH6SMB84ERpJoQ5nwGORyMfFzcDY2MYp_9Z_yXM2e6Df4mIEwusXa-YxOiYqwyXDLKnnfeEgUCWBLzbbdoeLlo6JLwP05bIvghFSCKewXH3Efj0Nh2VTWa0swb8aNM1zMcpAFAmoa0kf8AhYxHkelntbZ9ognevYSOO',
+            profile: {
+                provider: 'google',
+                sub: '114565201352207470687',
+                id: '114565201352207470687',
+                displayName: 'Souvik Das',
+                name: { givenName: 'Souvik', familyName: 'Das' },
+                given_name: 'Souvik',
+                family_name: 'Das',
+                email_verified: true,
+                verified: true,
+                language: 'en',
+                locale: undefined,
+                email: 'souvik131@gmail.com',
+                emails: [ [Object] ],
+                photos: [ [Object] ],
+                picture: 'https://lh4.googleusercontent.com/-FDWba1HkD8Q/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucmpq9Uy_wW27DKyn5nzYeiPu3rjeQ/photo.jpg',
+                _raw: '{\n' +
+                '  "sub": "114565201352207470687",\n' +
+                '  "name": "Souvik Das",\n' +
+                '  "given_name": "Souvik",\n' +
+                '  "family_name": "Das",\n' +
+                '  "picture": "https://lh4.googleusercontent.com/-FDWba1HkD8Q/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucmpq9Uy_wW27DKyn5nzYeiPu3rjeQ/photo.jpg",\n' +
+                '  "email": "souvik131@gmail.com",\n' +
+                '  "email_verified": true,\n' +
+                '  "locale": "en"\n' +
+                '}',
+                _json: {
+                    sub: '114565201352207470687',
+                    name: 'Souvik Das',
+                    given_name: 'Souvik',
+                    family_name: 'Das',
+                    picture: 'https://lh4.googleusercontent.com/-FDWba1HkD8Q/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucmpq9Uy_wW27DKyn5nzYeiPu3rjeQ/photo.jpg',
+                    email: 'souvik131@gmail.com',
+                    email_verified: true,
+                    locale: 'en'
+                }
+            }
         }
     },
     "production":{
@@ -24,7 +63,46 @@ let inMemory = {
             url: 'https://the-uncurbed.myshopify.com',
             email: 'souvik131@gmail.com',
             session: 'd7641a5380a7457e6caf27ef9dddfe26085a73198ac3c72f7153d59111088344',
-            locale: 'en'
+            locale: 'en',
+            refreshToken: undefined,
+            accessToken: 'ya29.a0AfH6SMB84ERpJoQ5nwGORyMfFzcDY2MYp_9Z_yXM2e6Df4mIEwusXa-YxOiYqwyXDLKnnfeEgUCWBLzbbdoeLlo6JLwP05bIvghFSCKewXH3Efj0Nh2VTWa0swb8aNM1zMcpAFAmoa0kf8AhYxHkelntbZ9ognevYSOO',
+            profile: {
+                provider: 'google',
+                sub: '114565201352207470687',
+                id: '114565201352207470687',
+                displayName: 'Souvik Das',
+                name: { givenName: 'Souvik', familyName: 'Das' },
+                given_name: 'Souvik',
+                family_name: 'Das',
+                email_verified: true,
+                verified: true,
+                language: 'en',
+                locale: undefined,
+                email: 'souvik131@gmail.com',
+                emails: [ [Object] ],
+                photos: [ [Object] ],
+                picture: 'https://lh4.googleusercontent.com/-FDWba1HkD8Q/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucmpq9Uy_wW27DKyn5nzYeiPu3rjeQ/photo.jpg',
+                _raw: '{\n' +
+                '  "sub": "114565201352207470687",\n' +
+                '  "name": "Souvik Das",\n' +
+                '  "given_name": "Souvik",\n' +
+                '  "family_name": "Das",\n' +
+                '  "picture": "https://lh4.googleusercontent.com/-FDWba1HkD8Q/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucmpq9Uy_wW27DKyn5nzYeiPu3rjeQ/photo.jpg",\n' +
+                '  "email": "souvik131@gmail.com",\n' +
+                '  "email_verified": true,\n' +
+                '  "locale": "en"\n' +
+                '}',
+                _json: {
+                    sub: '114565201352207470687',
+                    name: 'Souvik Das',
+                    given_name: 'Souvik',
+                    family_name: 'Das',
+                    picture: 'https://lh4.googleusercontent.com/-FDWba1HkD8Q/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucmpq9Uy_wW27DKyn5nzYeiPu3rjeQ/photo.jpg',
+                    email: 'souvik131@gmail.com',
+                    email_verified: true,
+                    locale: 'en'
+                }
+            }
         }
     }
 }
@@ -40,3 +118,4 @@ module.exports = {
         return inMemory[env][key]
     }
 }
+
