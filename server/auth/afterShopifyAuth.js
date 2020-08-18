@@ -2,13 +2,13 @@
 
 import dotenv from "dotenv";
 import cache from "../../cache/app"
-import  { registerWebhook }  from '@shopify/koa-shopify-webhooks';
+import  { registerWebhooks}  from '../handlers/register-webhooks';
 import  { ApiVersion } from "@shopify/koa-shopify-graphql-proxy";
 import jwt from 'jsonwebtoken'
 import getSubscriptionUrl  from '../handlers/mutations/get-subscription-url';
 
 dotenv.config();
-const { HOST,JWT_SECRET,APP_NAME} = process.env;
+const { HOST,JWT_SECRET} = process.env;
 
 async function afterShopifyAuth(ctx) {
     //Auth token and shop available in session
@@ -28,23 +28,17 @@ async function afterShopifyAuth(ctx) {
       secure: true,
       sameSite: "none"
     });
-    const registration = await registerWebhook({
-      address: `${HOST}/webhooks/products/create`,
-      topic: 'PRODUCTS_CREATE',
-      accessToken,
+    await registerWebhooks(
       shop,
-      apiVersion: ApiVersion.October19
-    });
+      accessToken,
+      'PRODUCTS_CREATE'
+      `${HOST}/webhooks/products/create`,
+      ApiVersion.October19
+    ) 
 
-    if (registration.success) {
-      console.log('Successfully registered webhook!');
-    } else {
-      console.log('Failed to register webhook', registration.result);
-    }
-
-    ctx.redirect(`https://${shop}/admin/apps/${APP_NAME}`);
+    // ctx.redirect(`https://${shop}/admin/apps/${APP_NAME}`);
     // await getSubscriptionUrl(ctx, accessToken, shop);
-    // ctx.redirect("/");
+    ctx.redirect("/");
 }
 
 
