@@ -56,12 +56,12 @@ const passportAuth=(server)=>{
     }))
 
     //Google confirms login
-    server.use(route.get('/auth/google/callback',(ctx,next)=>{
+    server.use(route.get('/auth/google/callback',
         passport.authenticate('google', {
             successRedirect: '/login',
             failureRedirect: '/'
-        })(ctx,next)
-    }))
+        })
+    ))
     
     //Check authentication for all static requests
     const restrictAccess = (ctx) => {
