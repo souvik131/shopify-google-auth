@@ -15,15 +15,13 @@ const { GOOGLE_ID,GOOGLE_SECRET,HOST} = process.env;
 const passportAuth=(server)=>{
     server.proxy = true
     server.use(
-    //   convert(
-    session(
-        {
-          sameSite: "none",
-          secure: true
-        },
-        server
-      )
-    //   )
+        session(
+            {
+            sameSite: "none",
+            secure: true
+            },
+            server
+        )
     );
     server.use(bodyParser())
     passport.serializeUser(function(user, done) {
@@ -40,19 +38,30 @@ const passportAuth=(server)=>{
         },
         (request,accessToken,refreshToken,profile,done) =>{
             process.nextTick(_=> {
-                const cookies = request.headers.cookie.split('; ').reduce((prev, current) => {
+                const cookies = ctx.request.headers.cookie.split('; ').reduce((prev, current) => {
                     const [name, value] = current.split('=');
                     prev[name] = value;
                     return prev
                   }, {})
-                const { shopOrigin } = cookies
-                let cachedData = cache.get(shopOrigin)
-                cachedData.accessToken = accessToken
-                cachedData.refreshToken = refreshToken
-                cachedData.profile = profile
-                cache.set(shopOrigin,cachedData)
-                console.log("AUTHORIZED GOOGLE",cache.get(shopOrigin));
-                return done(null, profile);
+                const { jwtAccessToken } = cookies
+                if(jwtAccessToken){
+                  try{
+                    const shopObj = await verifyJWT(jwtAccessToken,JWT_SECRET)
+                    let cachedData = cache.get(shopObj.shop)
+                    cachedData.accessToken = accessToken
+                    cachedData.refreshToken = refreshToken
+                    cachedData.profile = profile
+                    cache.set(shopObj.shop,cachedData)
+                    console.log("AUTHORIZED GOOGLE",cache.get(shopObj.shop));
+                    return done(null, profile);
+                  }
+                  catch(e){
+                    return done(err, null);
+                  }
+                }
+                else{
+                    return done({message:"No JWT Token"}, null);
+                }
             });
         }
     ))
