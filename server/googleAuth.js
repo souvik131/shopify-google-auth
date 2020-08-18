@@ -1,6 +1,4 @@
 import  passport from  'koa-passport'
-// import convert from "koa-convert";
-// import session from 'koa-generic-session';
 import bodyParser from "koa-bodyparser"
 import route from 'koa-route'
 import session from "koa-session";
@@ -9,7 +7,7 @@ import * as config from "../config"
 import dotenv from "dotenv";
 import * as cache from "../cache/app"
 dotenv.config();
-const { GOOGLE_ID,GOOGLE_SECRET,HOST} = process.env;
+const { GOOGLE_ID,GOOGLE_SECRET,HOST,JWT_SECRET} = process.env;
 
 
 const passportAuth=(server)=>{
