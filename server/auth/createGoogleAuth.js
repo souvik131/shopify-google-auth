@@ -78,11 +78,11 @@ const createGoogleAuth=(server)=>{
             const validatedData = await validateRequestAndGetShop(ctx.request)
             if(validatedData.validated){
                 const shop = validatedData.data
-                ctx.redirect(`https://${shop}/admin/apps/${APP_NAME}/view`);
+                ctx.redirect(`/view`);
                 return
             }
         }
-        ctx.redirect(`https://${shop}/admin/apps/${APP_NAME}`);
+        ctx.redirect(`/`);
     };
     server.use(route.get('/login',restrictAccess))
 
