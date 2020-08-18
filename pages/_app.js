@@ -13,27 +13,10 @@ const client = new ApolloClient({
   }
 });
 class MyApp extends App {
-  static async getInitialProps(ctx){
-    if(ctx.req&&ctx.req.headers&&ctx.req.headers.cookie){
-      const cookie = ctx.req.headers.cookie;
-      const resp = await fetch(`${HOST}/getMyShopOrigin`,{
-        headers:{
-          cookie:cookie
-        },
-        method:"POST"
-      })
-      const validatedData = await resp.json()
-      if(validatedData.validated){
-        return {shop:json.data}
-      }
-    }
-    return {}
-    
-  }
 
   render() {
     const { Component, pageProps } = this.props;
-    const shopOrigin = this.props.shop||Cookies.get("shopOrigin");
+    const shopOrigin = Cookies.get("shopOrigin");
     return (
       <Container>
         <AppProvider i18n={translations}>

@@ -1,6 +1,10 @@
 import { Link, Page } from '@shopify/polaris';
-
+import Router from 'next/router'
 class Index extends React.Component {
+
+  // static async getInitialProps(){    
+  // }
+
   render() {
     return (
       <Page>
@@ -9,11 +13,7 @@ class Index extends React.Component {
     );
   }
 
-  handleSelection = (resources) => {
-    const idsFromResources = resources.selection.map((product) => product.id);
-    this.setState({ open: false });
-    store.set('ids', idsFromResources);
-  };
+
 }
 
 export default Index;
