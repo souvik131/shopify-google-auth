@@ -3,6 +3,7 @@
 import dotenv from "dotenv";
 import cache from "../../cache/app"
 import  { registerWebhook }  from '@shopify/koa-shopify-webhooks';
+import  { ApiVersion } from "@shopify/koa-shopify-graphql-proxy";
 import jwt from 'jsonwebtoken'
 import getSubscriptionUrl  from '../handlers/mutations/get-subscription-url';
 
