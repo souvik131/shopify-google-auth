@@ -1,10 +1,10 @@
 
 
 import dotenv from "dotenv";
-import cache from "../cache/app"
+import cache from "../../cache/app"
 import  { registerWebhook }  from '@shopify/koa-shopify-webhooks';
 import jwt from 'jsonwebtoken'
-import getSubscriptionUrl  from './handlers/mutations/get-subscription-url';
+import getSubscriptionUrl  from '../handlers/mutations/get-subscription-url';
 
 dotenv.config();
 const { HOST,JWT_SECRET,APP_NAME} = process.env;
