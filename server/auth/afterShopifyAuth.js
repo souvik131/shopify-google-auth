@@ -23,6 +23,11 @@ async function afterShopifyAuth(ctx) {
     secure: true,
     sameSite: "none"
   });
+  ctx.cookies.set("shopOrigin", shop, {
+    httpOnly: false,
+    secure: true,
+    sameSite: "none"
+  });
 
   await registerWebhooks(
     shop,
