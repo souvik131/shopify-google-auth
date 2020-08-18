@@ -7,9 +7,6 @@ export default function Index(statesData) {
    useEffect(() => {
      async function loadData() {
        const resp = await fetch(`${HOST}/checkGoogleLogin`,{
-         headers:{
-           cookie:cookie
-         },
          method:"POST"
        })
        const loginData = await resp.json()
