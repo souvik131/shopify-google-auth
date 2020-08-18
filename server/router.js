@@ -26,7 +26,9 @@ module.exports={
         router.post('/checkGoogleLogin', koaBody(),async (ctx) => {
             const validatedData = await validateRequestAndGetShop(ctx.request)
             if(validatedData.validated){
+                console.log(validatedData.data)
                 const shopObj = cache.get(validatedData.data)
+                console.log(shopObj)
                 if(shopObj&&shopObj.googleRefreshToken){
                     ctx.body = JSON.stringify({loggedIn:true});
                     return

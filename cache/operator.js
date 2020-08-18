@@ -9,7 +9,7 @@ let inMemory ={
     development:{},
     production:{}
 }
-if(fs.existsSync(path)){
+if(fs.existsSync(path.resolve(__dirname, CACHE_FILE_NAME))){
     inMemory = JSON.parse(fs.readFileSync(path.resolve(__dirname, CACHE_FILE_NAME)));
 }
 else{
