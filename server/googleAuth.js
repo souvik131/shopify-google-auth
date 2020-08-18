@@ -88,7 +88,7 @@ const passportAuth=(server)=>{
             ctx.redirect("/");
         }
         else{
-            ctx.redirect("/view");
+            ctx.redirect(`https://${shop}.myshopify.com/admin/apps/${APP_NAME}/view`);
         }
         // next();
     };
