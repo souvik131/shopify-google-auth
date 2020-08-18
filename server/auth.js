@@ -52,9 +52,7 @@ const passportAuth=(server)=>{
 
     //Start Login by redirecting to Google
     server.use(route.get('/auth/google', (ctx,next)=>{
-            passport.authenticate("google", {scope: config.googleScope},(data)=>{
-                    console.log("DATA")
-            })(ctx,next)
+            passport.authenticate("google", {scope: config.googleScope})(ctx,next)
     }))
 
     //Google confirms login
