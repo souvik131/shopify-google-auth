@@ -40,8 +40,8 @@ const createGoogleAuth=(server)=>{
                 if(validatedData.validated){
                     const shop = validatedData.data
                     let cachedData = cache.get(shop)
-                    cachedData.accessToken = accessToken
-                    cachedData.refreshToken = refreshToken
+                    cachedData.googleAccessToken = accessToken
+                    cachedData.googleRefreshToken = refreshToken
                     cachedData.profile = profile
                     cache.set(shop,cachedData)
                     console.log("AUTHORIZED GOOGLE",cache.get(shop));
