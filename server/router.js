@@ -22,13 +22,3 @@ module.exports={
 
 }
 
-
-function verifyJWT(jwtAccessToken,JWT_SECRET){
-  return new Promise(async(resolve,reject)=>{
-    jwt.verify(jwtAccessToken,JWT_SECRET,(err,shop)=>{
-      if(err) reject(err)
-      resolve(shop)
-    })
-  })
-  
-}

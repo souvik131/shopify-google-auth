@@ -57,7 +57,7 @@ const passportAuth=(server)=>{
                     return done(null, profile);
                   }
                   catch(e){
-                    return done(err, null);
+                    return done(e, null);
                   }
                 }
                 else{
@@ -104,5 +104,14 @@ const passportAuth=(server)=>{
     }))
 }
 
+function verifyJWT(jwtAccessToken,JWT_SECRET){
+    return new Promise(async(resolve,reject)=>{
+        jwt.verify(jwtAccessToken,JWT_SECRET,(err,shop)=>{
+        if(err) reject(err)
+        resolve(shop)
+        })
+    })
+
+}
 
 export default passportAuth;
