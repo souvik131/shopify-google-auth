@@ -2,7 +2,6 @@
 import { verifyRequest } from "@shopify/koa-shopify-auth";
 import  {receiveWebhook}  from '@shopify/koa-shopify-webhooks';
 import  koaBody from 'koa-body';
-import jwt from 'jsonwebtoken'
 
 module.exports={
     init:(router,{SHOPIFY_API_SECRET_KEY,JWT_SECRET},handle)=>{

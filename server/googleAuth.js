@@ -3,11 +3,11 @@ import bodyParser from "koa-bodyparser"
 import route from 'koa-route'
 import session from "koa-session";
 import { Strategy as GoogleStrategy } from "passport-google-oauth2"
-import * as config from "../config"
 import dotenv from "dotenv";
-import * as cache from "../cache/app"
+import cache from "../cache/app"
+import jwt from 'jsonwebtoken'
 dotenv.config();
-const { GOOGLE_ID,GOOGLE_SECRET,HOST,JWT_SECRET} = process.env;
+const { GOOGLE_ID,GOOGLE_SECRET,HOST,JWT_SECRET,GOOGLE_SCOPES} = process.env;
 
 
 const passportAuth=(server)=>{
@@ -71,7 +71,7 @@ const passportAuth=(server)=>{
 
     //Start Login by redirecting to Google
     server.use(route.get('/auth/google', (ctx,next)=>{
-            passport.authenticate("google", {scope: config.googleScope, authType: 'rerequest', accessType: 'offline', prompt: 'consent', includeGrantedScopes: true})(ctx,next)
+            passport.authenticate("google", {scope: GOOGLE_SCOPES.split(","), authType: 'rerequest', accessType: 'offline', prompt: 'consent', includeGrantedScopes: true})(ctx,next)
     }))
 
     //Google confirms login
