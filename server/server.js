@@ -21,7 +21,7 @@ const host = config.host
 const dev = process.env.NODE_ENV !== "production";
 const app = next({ dev });
 const handle = app.getRequestHandler();
-const { SHOPIFY_API_SECRET, SHOPIFY_API_KEY, SCOPES ,HOST,JWT_SECRET} = process.env;
+const { SHOPIFY_API_SECRET, SHOPIFY_API_KEY, SCOPES ,HOST,JWT_SECRET,APP_NAME} = process.env;
 
 
 
@@ -83,6 +83,8 @@ async function afterAuth(ctx) {
   } else {
     console.log('Failed to register webhook', registration.result);
   }
+
+  ctx.redirect(`https://the-uncurbed.myshopify.com/admin/apps/${APP_NAME}`);
   // await getSubscriptionUrl(ctx, accessToken, shop);
   // ctx.redirect("/");
 }
