@@ -67,7 +67,7 @@ const createGoogleAuth=(server)=>{
     server.use(route.get('/auth/google/callback',
         passport.authenticate('google', {
             successRedirect: '/login',
-            failureRedirect: `https://${shop}/admin/apps/${APP_NAME}`
+            failureRedirect: '/'
         })
     ))
     
