@@ -78,7 +78,12 @@ const createGoogleAuth=(server)=>{
             const validatedData = await validateRequestAndGetShop(ctx.request)
             if(validatedData.validated){
                 const shop = validatedData.data
-                ctx.redirect(`https://${shop}/admin/apps/${APP_NAME}/view`);
+                ctx.cookies.set("google", "loggedIn", {
+                    httpOnly: true,
+                    secure: true,
+                    sameSite: "none"
+                });
+                ctx.redirect(`https://${shop}/admin/apps/${APP_NAME}/`);
                 return
             }
         }
@@ -98,8 +103,13 @@ const createGoogleAuth=(server)=>{
                 shopObj.googleRefreshToken = undefined
                 shopObj.profile = undefined
                 cache.set(shop,shopObj)
+                ctx.cookies.set("googleLogin", "loggedOut", {
+                    httpOnly: true,
+                    secure: true,
+                    sameSite: "none"
+                });
                 ctx.logout()
-                ctx.redirect(`/view`);
+                ctx.redirect("/");
                 return
             }
         }

@@ -30,10 +30,20 @@ module.exports={
                 const shopObj = cache.get(validatedData.data)
                 console.log(shopObj)
                 if(shopObj&&shopObj.googleRefreshToken){
+                    ctx.cookies.set("googleLogin", "loggedIn", {
+                        httpOnly: true,
+                        secure: true,
+                        sameSite: "none"
+                    });
                     ctx.body = JSON.stringify({loggedIn:true});
                     return
                 }
             }
+            ctx.cookies.set("googleLogin", "loggedOut", {
+                httpOnly: true,
+                secure: true,
+                sameSite: "none"
+            });
             ctx.body = JSON.stringify({loggedIn:false});
         });
 
