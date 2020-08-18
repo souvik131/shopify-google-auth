@@ -27,7 +27,7 @@ module.exports={
             const validatedData = await validateRequestAndGetShop(ctx.request)
             if(validatedData.validated){
                 const shopObj = cache.get(validatedData.data)
-                if(shopObj.googleRefreshToken){
+                if(shopObj&&shopObj.googleRefreshToken){
                     ctx.body = JSON.stringify({loggedIn:true});
                     return
                 }
