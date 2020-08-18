@@ -90,7 +90,6 @@ const passportAuth=(server)=>{
         else{
             ctx.redirect(`https://${shop}.myshopify.com/admin/apps/${APP_NAME}/view`);
         }
-        // next();
     };
     server.use(route.get('/login',restrictAccess))
 
