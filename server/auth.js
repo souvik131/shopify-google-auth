@@ -49,20 +49,23 @@ const passportAuth=(server)=>{
     server.use(passport.initialize())
     server.use(passport.session())
 
+
     //Start Login by redirecting to Google
     server.use(route.get('/auth/google', (ctx,next)=>{
-            console.log("HEADERS",ctx.request.headers)
-            passport.authenticate("google", {scope: config.googleScope})(ctx,next)
-    
+            passport.authenticate("google", {scope: config.googleScope},(data)=>{
+                    console.log("DATA")
+            })(ctx,next)
     }))
 
     //Google confirms login
-    server.use(route.get('/auth/google/callback',
+    server.use(route.get('/auth/google/callback',(ctx,next)=>{
         passport.authenticate('google', {
             successRedirect: '/login',
             failureRedirect: '/'
-        })
-    ))
+        })(ctx,next)
+    }))
+    
+    //Check authentication for all static requests
     const restrictAccess = (ctx) => {
         if (!ctx.isAuthenticated()) {
             ctx.redirect("/");
@@ -72,9 +75,6 @@ const passportAuth=(server)=>{
         }
         // next();
     };
-    
-
-    //Check authentication for all static requests
     server.use(route.get('/login',restrictAccess))
 
 
