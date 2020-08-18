@@ -16,7 +16,7 @@ export default function Index(statesData) {
      if(statesData.log!==false||statesData.log!==true) {
          loadData();
      }
-   }, {loading:true});
+   }, []);
  
      if(states.loading){
        return (<Spinner accessibilityLabel="Loading..." size="large" color="teal" />)
