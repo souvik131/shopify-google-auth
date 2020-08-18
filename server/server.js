@@ -71,7 +71,7 @@ async function afterAuth(ctx) {
   await registerWebhooks(
     shop,
     accessToken,
-    'PRODUCTS_CREATE'
+    'PRODUCTS_CREATE',
     `${HOST}/webhooks/products/create`,
     ApiVersion.October19
   ) 
