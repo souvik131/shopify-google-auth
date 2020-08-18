@@ -14,17 +14,22 @@ class Index extends React.Component {
       })
       const loginData = await resp.json()
       if(loginData.loggedIn){
-        ctx.res.writeHead(302, {Location: '/view'})
-        ctx.res.end()
+        // ctx.res.writeHead(302, {Location: '/view'})
+        // ctx.res.end()
+        return {loggedIn:true}
       }
     }
-    return {}
+    return {loggedIn:false}
     
   }
 
   render() {
     return (
+      this.props.loggedIn?
       <Page>
+       <Heading>Congrats, you are logged in! 🎉</Heading> 
+       <Link url={`https://theuncurbed.com/logout`}  >Logout of google</Link>
+      </Page>:<Page>
         <Heading>Welcome, connect with your google account 🚀</Heading> 
         <Link url={`https://theuncurbed.com/auth/google`} external={true}>Connect to Google</Link>
       </Page>
