@@ -16,7 +16,7 @@ const passportAuth=(server)=>{
     server.proxy = true
     server.use(
     //   convert(
-          session(
+    session(
         {
           sameSite: "none",
           secure: true
@@ -40,7 +40,7 @@ const passportAuth=(server)=>{
         },
         (request,accessToken,refreshToken,profile,done) =>{
             process.nextTick(_=> {
-                console.log("AUTHORIZED GOOGLE",request.query,request.params);
+                console.log("AUTHORIZED GOOGLE",request._inputQuery);
                 return done(null, profile);
             });
         }
@@ -50,9 +50,14 @@ const passportAuth=(server)=>{
     server.use(passport.session())
 
     //Start Login by redirecting to Google
-    server.use(route.get('/auth/google', passport.authenticate("google", {scope: config.googleScope})))
+    server.use(route.get('/auth/google', (ctx,next)=>{
+            console.log(ctx.request.query)
+            ctx.request._inputQuery=ctx.request.query
+            passport.authenticate("google", {scope: config.googleScope})(ctx,next)
+    
+    }))
 
-    //Google confoims login
+    //Google confirms login
     server.use(route.get('/auth/google/callback',
         passport.authenticate('google', {
             successRedirect: '/login',
