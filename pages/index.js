@@ -10,10 +10,10 @@ export default function Index(statesData) {
          method:"POST"
        })
        const loginData = await resp.json()
-       setStates({loggedIn:loginData.loggedIn,loading:true})
+       setStates(loginData)
      }
  
-     if(statesData.log!==false||statesData.log!==true) {
+     if(statesData.loggedIn!==false&&statesData.loggedIn!==true) {
          loadData();
      }
    }, []);
@@ -49,9 +49,7 @@ export default function Index(statesData) {
          method:"POST"
        })
        const loginData = await resp.json()
-       if(loginData.loggedIn){
-         return {loggedIn:true,loading:true}
-       }
+       return loginData
      }
-     return {loggedIn:false,loading:true}
+     return {loggedIn:false}
  };
