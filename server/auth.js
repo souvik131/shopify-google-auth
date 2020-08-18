@@ -40,7 +40,7 @@ const passportAuth=(server)=>{
         },
         (request,accessToken,refreshToken,profile,done) =>{
             process.nextTick(_=> {
-                console.log("AUTHORIZED GOOGLE",request._inputQuery,request.query);
+                console.log("AUTHORIZED GOOGLE",request.headers,request.query);
                 return done(null, profile);
             });
         }
@@ -51,9 +51,8 @@ const passportAuth=(server)=>{
 
     //Start Login by redirecting to Google
     server.use(route.get('/auth/google', (ctx,next)=>{
-            console.log(ctx.request.query)
-            ctx.request._inputQuery=ctx.request.query
-            passport.authenticate("google", {scope: config.googleScope,state:ctx.request.query})(ctx,next)
+            console.log("HEADERS",ctx.request.headers)
+            passport.authenticate("google", {scope: config.googleScope})(ctx,next)
     
     }))
 
