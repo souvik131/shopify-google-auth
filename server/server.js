@@ -7,8 +7,7 @@ import Koa from "koa";
 import next from "next";
 import Router from "koa-router";
 import { init as routerInit}  from "./router"
-import * as config from  "../config"
-import * as cache from "../cache/app"
+import cache from "../cache/app"
 import passportAuth from "./googleAuth"
 import  { registerWebhook}  from '@shopify/koa-shopify-webhooks';
 import jwt from 'jsonwebtoken'
@@ -16,13 +15,11 @@ const getSubscriptionUrl = require('./handlers/mutations/get-subscription-url');
 
 
 dotenv.config();
-const port = parseInt(process.env.PORT, 10) || config.port;
-const host = config.host
+const { SHOPIFY_API_SECRET, SHOPIFY_API_KEY, SCOPES ,HOST,JWT_SECRET,APP_NAME,LISTEN_IP,LISTEN_PORT} = process.env;
+const port = parseInt(process.env.PORT, 10) || LISTEN_PORT;
 const dev = process.env.NODE_ENV !== "production";
 const app = next({ dev });
 const handle = app.getRequestHandler();
-const { SHOPIFY_API_SECRET, SHOPIFY_API_KEY, SCOPES ,HOST,JWT_SECRET,APP_NAME} = process.env;
-
 
 
 (async()=>{
@@ -48,7 +45,7 @@ const { SHOPIFY_API_SECRET, SHOPIFY_API_KEY, SCOPES ,HOST,JWT_SECRET,APP_NAME} =
   routerInit(router,process.env,handle);
   server.use(router.allowedMethods());
   server.use(router.routes());
-  server.listen(port,host, () => console.log(`> Ready on http://${host}:${port}`));
+  server.listen(port,LISTEN_IP, () => console.log(`> Ready on http://${LISTEN_IP}:${port}`));
 })();
 
 
