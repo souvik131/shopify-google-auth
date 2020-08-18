@@ -8,7 +8,7 @@ import cache from "../../cache/operator"
 import validateRequestAndGetShop from "./jwtAuthenticate"
 
 dotenv.config();
-const { GOOGLE_ID,GOOGLE_SECRET,HOST,GOOGLE_SCOPES,APP_NAME} = process.env;
+const { GOOGLE_ID,GOOGLE_SECRET,HOST,GOOGLE_SCOPES,APP_NAME,HOST} = process.env;
 
 
 const createGoogleAuth=(server)=>{
@@ -78,11 +78,11 @@ const createGoogleAuth=(server)=>{
             const validatedData = await validateRequestAndGetShop(ctx.request)
             if(validatedData.validated){
                 const shop = validatedData.data
-                ctx.redirect(`/view`);
+                ctx.redirect(`${HOST}/view`);
                 return
             }
         }
-        ctx.redirect(`/`);
+        ctx.redirect(`${HOST}/`);
     };
     server.use(route.get('/login',restrictAccess))
 
