@@ -38,7 +38,7 @@ const passportAuth=(server)=>{
         },
         (request,accessToken,refreshToken,profile,done) =>{
             process.nextTick(async _=> {
-                const cookies = ctx.request.headers.cookie.split('; ').reduce((prev, current) => {
+                const cookies = request.headers.cookie.split('; ').reduce((prev, current) => {
                     const [name, value] = current.split('=');
                     prev[name] = value;
                     return prev
