@@ -36,8 +36,8 @@ const passportAuth=(server)=>{
             callbackURL: `${HOST}/auth/google/callback`,
             passReqToCallback   : true
         },
-        async (request,accessToken,refreshToken,profile,done) =>{
-            process.nextTick(_=> {
+        (request,accessToken,refreshToken,profile,done) =>{
+            process.nextTick(async _=> {
                 const cookies = ctx.request.headers.cookie.split('; ').reduce((prev, current) => {
                     const [name, value] = current.split('=');
                     prev[name] = value;
