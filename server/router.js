@@ -4,6 +4,7 @@ import  {receiveWebhook}  from '@shopify/koa-shopify-webhooks';
 import dotenv from "dotenv";
 import validateRequestAndGetShop from "./auth/jwtAuthenticate"
 import  koaBody from 'koa-body';
+import cache from "../cache/operator"
 dotenv.config();
 
 const { SHOPIFY_API_SECRET_KEY} = process.env;
@@ -21,6 +22,19 @@ module.exports={
                 const validatedData = await validateRequestAndGetShop(ctx.request)
                 ctx.body = JSON.stringify(validatedData);
         });
+
+        router.post('/checkGoogleLogin', koaBody(),async (ctx) => {
+            const validatedData = await validateRequestAndGetShop(ctx.request)
+            const shopObj = cache.get(shop)
+            if(validatedData.validate&&shopObj.googleRefreshToken){
+                ctx.body = JSON.stringify({loggedIn:true});
+            }
+            else{
+                ctx.body = JSON.stringify({loggedIn:false});
+            }
+            
+        });
+
 
         router.get("*", verifyRequest(), async ctx => {
             await handle(ctx.req, ctx.res);

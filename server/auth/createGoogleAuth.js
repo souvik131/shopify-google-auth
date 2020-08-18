@@ -6,6 +6,7 @@ import { Strategy as GoogleStrategy } from "passport-google-oauth2"
 import dotenv from "dotenv";
 import cache from "../../cache/operator"
 import validateRequestAndGetShop from "./jwtAuthenticate"
+
 dotenv.config();
 const { GOOGLE_ID,GOOGLE_SECRET,HOST,GOOGLE_SCOPES,APP_NAME} = process.env;
 
@@ -88,8 +89,22 @@ const createGoogleAuth=(server)=>{
 
     //Logout google
     server.use(route.get('/logout', (ctx) => {
-            ctx.logout()
-            ctx.redirect(`https://${shop}/admin/apps/${APP_NAME}/`);
+        if (ctx.isAuthenticated()) {
+            const validatedData = await validateRequestAndGetShop(ctx.request)
+            if(validatedData.validated){
+                const shop = validatedData.data
+                let shopObj = cache.get(shop)
+                shopObj.googleAccessToken = undefined
+                shopObj.googleRefreshToken = undefined
+                shopObj.profile = undefined
+                cache.set(shop,shopObj)
+                ctx.logout()
+                ctx.redirect(`https://${shop}/admin/apps/${APP_NAME}/view`);
+                return
+            }
+        }
+        ctx.logout()
+        ctx.redirect("/")
     }))
 }
 
