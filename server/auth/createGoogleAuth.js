@@ -74,7 +74,7 @@ const createGoogleAuth=(server)=>{
     //Check authentication for all static requests
     const restrictAccess = async(ctx) => {
         if (ctx.isAuthenticated()) {
-            const validatedData = await validateRequestAndGetShop(request)
+            const validatedData = await validateRequestAndGetShop(ctx.request)
             if(validatedData.validated){
                 const shop = validatedData.data
                 ctx.redirect(`https://${shop}/admin/apps/${APP_NAME}/view`);
