@@ -1,5 +1,4 @@
-import { Heading, Page ,Link} from "@shopify/polaris";
-import {useRouter} from "next/router"
+import { Heading, Page } from "@shopify/polaris";
 
 const Main = props => {
   return (<Page>

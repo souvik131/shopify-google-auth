@@ -1,45 +1,10 @@
-import { EmptyState, Layout, Page, Link } from '@shopify/polaris';
-import { ResourcePicker } from '@shopify/app-bridge-react';
-import store from 'store-js';
-import ResourceListWithProducts from '../components/ResourceList';
-
-const img = 'https://cdn.shopify.com/s/files/1/0757/9955/files/empty-state.svg';
+import { Link, Page } from '@shopify/polaris';
 
 class Index extends React.Component {
-  state = { open: false };
   render() {
-    const emptyState = !store.get('ids');
     return (
-      <Page
-        primaryAction={{
-          content: 'Select products',
-          onAction: () => this.setState({ open: true }),
-        }}
-      >
-        <Link url={`https://theuncurbed.com/auth/google`} external={true}>Login to Google</Link>
-        <ResourcePicker
-          resourceType="Product"
-          showVariants={false}
-          open={this.state.open}
-          onSelection={(resources) => this.handleSelection(resources)}
-          onCancel={() => this.setState({ open: false })}
-        />
-        {emptyState ? (
-          <Layout>
-            <EmptyState
-              heading="Discount your products temporarily"
-              action={{
-                content: 'Select products',
-                onAction: () => this.setState({ open: true }),
-              }}
-              image={img}
-            >
-              <p>Select products to change their price temporarily.</p>
-            </EmptyState>
-          </Layout>
-        ) : (
-            <ResourceListWithProducts />
-          )}
+      <Page>
+        <Link url={`https://theuncurbed.com/auth/google`} external={true}>Connect to Google</Link>
       </Page>
     );
   }
