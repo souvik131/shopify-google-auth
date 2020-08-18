@@ -1,10 +1,14 @@
 
 import { verifyRequest } from "@shopify/koa-shopify-auth";
 import  {receiveWebhook}  from '@shopify/koa-shopify-webhooks';
+import dotenv from "dotenv";
 import  koaBody from 'koa-body';
+dotenv.config();
+
+const { SHOPIFY_API_SECRET_KEY} = process.env;
 
 module.exports={
-    init:(router,{SHOPIFY_API_SECRET_KEY},handle)=>{
+    init:(router,handle)=>{
 
         const webhook = receiveWebhook({secret: SHOPIFY_API_SECRET_KEY});
 
