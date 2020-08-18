@@ -39,7 +39,7 @@ const handle = app.getRequestHandler();
       version: ApiVersion.October19
     })
   );
-  routerInit(router,process.env,handle);
+  routerInit(router,handle);
   server.use(router.allowedMethods());
   server.use(router.routes());
   server.listen(port,LISTEN_IP, () => console.log(`> Ready on http://${LISTEN_IP}:${port}`));
