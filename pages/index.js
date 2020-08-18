@@ -1,4 +1,4 @@
-import { Heading,Link, Page } from '@shopify/polaris';
+import { Heading,Link, Page,Spinner } from '@shopify/polaris';
 import Router from 'next/router'
 
 class Index extends React.Component {
@@ -27,11 +27,7 @@ class Index extends React.Component {
 
   render() {
     if(this.props.loading){
-      return (<div style={{height: '100px'}}>
-              <Frame>
-                <Loading />
-              </Frame>
-            </div>)
+      return (<Spinner accessibilityLabel="Loading..." size="large" color="teal" />)
     }
     return (
       this.props.loggedIn?
