@@ -77,7 +77,7 @@ const createGoogleAuth=(server)=>{
             const validatedData = await validateRequestAndGetShop(request)
             if(validatedData.validated){
                 const shop = validatedData.data
-                ctx.redirect(`https://${shop}.myshopify.com/admin/apps/${APP_NAME}/view`);
+                ctx.redirect(`https://${shop}/admin/apps/${APP_NAME}/view`);
                 return
             }
         }
