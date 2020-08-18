@@ -81,7 +81,7 @@ async function afterAuth(ctx) {
     console.log('Failed to register webhook', registration.result);
   }
 
-  ctx.redirect(`https://the-uncurbed.myshopify.com/admin/apps/${APP_NAME}`);
+  ctx.redirect(`https://${shop}.myshopify.com/admin/apps/${APP_NAME}`);
   // await getSubscriptionUrl(ctx, accessToken, shop);
   // ctx.redirect("/");
 }
