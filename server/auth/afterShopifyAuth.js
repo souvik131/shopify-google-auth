@@ -8,37 +8,38 @@ import jwt from 'jsonwebtoken'
 import getSubscriptionUrl  from '../handlers/mutations/get-subscription-url';
 
 dotenv.config();
-const { HOST,JWT_SECRET} = process.env;
+const { HOST,JWT_SECRET,APP_NAME} = process.env;
 
 async function afterShopifyAuth(ctx) {
-    //Auth token and shop available in session
-    //Redirect to shop upon auth
-    const { code,state } = ctx.query
-    const { shop, accessToken, _expire } = ctx.session;
-    const { name,url,email } = await getProfile(shop,accessToken);
-    const jwtAccessToken = jwt.sign({shop:shop},JWT_SECRET)
-    cache.set(shop,{ code, state ,shop, accessToken, _expire, name, url, email })
-    ctx.cookies.set("jwtAccessToken", jwtAccessToken, {
-      httpOnly: true,
-      secure: true,
-      sameSite: "none"
-    });
-    ctx.cookies.set("shopOrigin", shop, {
-      httpOnly: true,
-      secure: true,
-      sameSite: "none"
-    });
-    await registerWebhooks(
-      shop,
-      accessToken,
-      'PRODUCTS_CREATE'
-      `${HOST}/webhooks/products/create`,
-      ApiVersion.October19
-    ) 
+  //Auth token and shop available in session
+  //Redirect to shop upon auth
+  const { code,state } = ctx.query
+  const { shop, accessToken, _expire } = ctx.session;
+  const { name,url,email } = await getProfile(shop,accessToken);
+  cache.set(shop,{ code, state ,shop, accessToken, _expire, name, url, email })
+  const jwtAccessToken = jwt.sign({shop:shop},JWT_SECRET)
+  ctx.cookies.set("jwtAccessToken", jwtAccessToken, {
+    httpOnly: true,
+    secure: true,
+    sameSite: "none"
+  });
+  ctx.cookies.set("shopOrigin", shop, {
+    httpOnly: true,
+    secure: true,
+    sameSite: "none"
+  });
 
-    // ctx.redirect(`https://${shop}/admin/apps/${APP_NAME}`);
-    // await getSubscriptionUrl(ctx, accessToken, shop);
-    ctx.redirect("/");
+  await registerWebhooks(
+    shop,
+    accessToken,
+    'PRODUCTS_CREATE',
+    `${HOST}/webhooks/products/create`,
+    ApiVersion.October19
+  ) 
+
+  ctx.redirect(`https://${shop}/admin/apps/${APP_NAME}`);
+  // await getSubscriptionUrl(ctx, accessToken, shop);
+  // ctx.redirect("/");
 }
 
 
