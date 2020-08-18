@@ -78,11 +78,11 @@ const createGoogleAuth=(server)=>{
             const validatedData = await validateRequestAndGetShop(ctx.request)
             if(validatedData.validated){
                 const shop = validatedData.data
-                ctx.redirect(`${HOST}/view`);
+                ctx.redirect(`https://${shop}/admin/apps/${APP_NAME}/view`);
                 return
             }
         }
-        ctx.redirect(`${HOST}/`);
+        ctx.redirect(`https://${shop}/admin/apps/${APP_NAME}/`);
     };
     server.use(route.get('/login',restrictAccess))
 
@@ -99,7 +99,7 @@ const createGoogleAuth=(server)=>{
                 shopObj.profile = undefined
                 cache.set(shop,shopObj)
                 ctx.logout()
-                ctx.redirect(`https://${shop}/admin/apps/${APP_NAME}/view`);
+                ctx.redirect(`/view`);
                 return
             }
         }
