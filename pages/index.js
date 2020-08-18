@@ -1,7 +1,7 @@
 import { Heading,Link, Page,Spinner } from '@shopify/polaris';
 import { useEffect, useState } from 'react';
 
-export default function Index({ statesData }) {
+export default function Index(statesData) {
 
   const [states, setStates] = useState(statesData);
    useEffect(() => {
