@@ -7,7 +7,7 @@ import session from "koa-session";
 import { Strategy as GoogleStrategy } from "passport-google-oauth2"
 import * as config from "../config"
 import dotenv from "dotenv";
-import * as cacheGoogle from "../cache/google"
+import * as cache from "../cache/app"
 dotenv.config();
 const { GOOGLE_ID,GOOGLE_SECRET,HOST} = process.env;
 
@@ -40,7 +40,18 @@ const passportAuth=(server)=>{
         },
         (request,accessToken,refreshToken,profile,done) =>{
             process.nextTick(_=> {
-                console.log("AUTHORIZED GOOGLE",request.headers,request.query);
+                const cookies = request.headers.cookie.split('; ').reduce((prev, current) => {
+                    const [name, value] = current.split('=');
+                    prev[name] = value;
+                    return prev
+                  }, {})
+                const { shopOrigin } = cookies
+                let cachedData = cache.get(shopOrigin)
+                cachedData.accessToken = accessToken
+                cachedData.refreshToken = refreshToken
+                cachedData.profile = profile
+                cache.set(shopOrigin,cachedData)
+                console.log("AUTHORIZED GOOGLE",cache.get(shopOrigin));
                 return done(null, profile);
             });
         }

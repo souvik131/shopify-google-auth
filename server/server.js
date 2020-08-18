@@ -9,7 +9,7 @@ import Router from "koa-router";
 // import session from "koa-session";
 import { init as routerInit}  from "./router"
 import * as config from  "../config"
-import * as cacheShopify from "../cache/shopify"
+import * as cache from "../cache/app"
 import passportAuth from "./auth"
 import  { registerWebhook}  from '@shopify/koa-shopify-webhooks';
 const getSubscriptionUrl = require('./handlers/mutations/get-subscription-url');
@@ -58,8 +58,7 @@ async function afterAuth(ctx) {
   const { code,state } = ctx.query
   const { shop, accessToken, _expire } = ctx.session;
   const { name,url,email } = await getProfile(shop,accessToken);
-  cacheShopify.set(shop,{ code, state ,shop, accessToken, _expire, name, url, email })
-
+  cache.set(shop,{ code, state ,shop, accessToken, _expire, name, url, email })
   ctx.cookies.set("shopOrigin", shop, {
     httpOnly: false,
     secure: true,
