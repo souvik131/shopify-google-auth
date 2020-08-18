@@ -88,7 +88,7 @@ const createGoogleAuth=(server)=>{
 
 
     //Logout google
-    server.use(route.get('/logout', (ctx) => {
+    server.use(route.get('/logout', async(ctx) => {
         if (ctx.isAuthenticated()) {
             const validatedData = await validateRequestAndGetShop(ctx.request)
             if(validatedData.validated){
