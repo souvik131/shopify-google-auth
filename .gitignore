@@ -21,4 +21,5 @@ config/tunnel.pid
 .next/
 
 
-package-lock.json
+#cache json
+cache/cache.json
