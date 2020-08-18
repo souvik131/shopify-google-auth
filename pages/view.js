@@ -26,7 +26,7 @@ class Main extends React.Component {
     return (
       <Page>
        <Heading>Congrats, you are logged in! 🎉</Heading> 
-       <Link url={`${HOST}/logout`}  external={true}>Logout of google</Link>
+       <Link url={`${HOST}/logout`}  >Logout of google</Link>
       </Page>
     );
   }
