@@ -25,6 +25,7 @@ class Index extends React.Component {
   render() {
     return (
       <Page>
+        <Heading>Welcome, connect with your google account 🚀</Heading> 
         <Link url={`https://theuncurbed.com/auth/google`} external={true}>Connect to Google</Link>
       </Page>
     );
