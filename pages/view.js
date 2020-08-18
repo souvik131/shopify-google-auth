@@ -1,4 +1,4 @@
-import { Heading, Page } from "@shopify/polaris";
+import { Heading,Link, Page } from "@shopify/polaris";
 import Router from 'next/router'
 
 class Main extends React.Component {
