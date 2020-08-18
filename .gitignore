@@ -22,4 +22,4 @@ config/tunnel.pid
 
 
 #cache json
-cache
+cache/cache.json
