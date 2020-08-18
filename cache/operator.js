@@ -5,10 +5,16 @@ import fs from 'fs';
 import path from "path";
 dotenv.config();
 const { CACHE_FILE_NAME} = process.env;
-
-
-let inMemory = JSON.parse(fs.readFileSync(path.resolve(__dirname, CACHE_FILE_NAME)));
-
+let inMemory ={
+    development:{},
+    production:{}
+}
+if(fs.existsSync(path)){
+    inMemory = JSON.parse(fs.readFileSync(path.resolve(__dirname, CACHE_FILE_NAME)));
+}
+else{
+    fs.writeFileSync(path.resolve(__dirname, CACHE_FILE_NAME), JSON.stringify(inMemory));
+}
 const env = process.env.NODE_ENV=== "production"?process.env.NODE_ENV:"development"
 
 module.exports = {
