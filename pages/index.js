@@ -36,7 +36,7 @@ export default function Index({ statesData }) {
      );
  }
  
- Person.getInitialProps = async ctx => {
+ Index.getInitialProps = async ctx => {
      if(!ctx.req) {
          return { loading:true };
      }
