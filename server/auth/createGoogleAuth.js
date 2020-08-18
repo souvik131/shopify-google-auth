@@ -8,7 +8,7 @@ import cache from "../../cache/operator"
 import validateRequestAndGetShop from "./jwtAuthenticate"
 
 dotenv.config();
-const { GOOGLE_ID,GOOGLE_SECRET,HOST,GOOGLE_SCOPES,APP_NAME,HOST} = process.env;
+const { GOOGLE_ID,GOOGLE_SECRET,HOST,GOOGLE_SCOPES,APP_NAME} = process.env;
 
 
 const createGoogleAuth=(server)=>{
