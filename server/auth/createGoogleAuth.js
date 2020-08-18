@@ -4,19 +4,19 @@ import route from 'koa-route'
 import session from "koa-session";
 import { Strategy as GoogleStrategy } from "passport-google-oauth2"
 import dotenv from "dotenv";
-import cache from "../cache/app"
-import jwt from 'jsonwebtoken'
+import cache from "../../cache/app"
+import validateRequestAndGetShop from "./jwtAuthenticate"
 dotenv.config();
-const { GOOGLE_ID,GOOGLE_SECRET,HOST,JWT_SECRET,GOOGLE_SCOPES} = process.env;
+const { GOOGLE_ID,GOOGLE_SECRET,HOST,GOOGLE_SCOPES} = process.env;
 
 
-const passportAuth=(server)=>{
+const createGoogleAuth=(server)=>{
     server.proxy = true
     server.use(
         session(
             {
-            sameSite: "none",
-            secure: true
+                sameSite: "none",
+                secure: true
             },
             server
         )
@@ -36,30 +36,19 @@ const passportAuth=(server)=>{
         },
         (request,accessToken,refreshToken,profile,done) =>{
             process.nextTick(async _=> {
-                console.log(request.headers.cookie)
-                const cookies = request.headers.cookie.split('; ').reduce((prev, current) => {
-                    const [name, value] = current.split('=');
-                    prev[name] = value;
-                    return prev
-                  }, {})
-                const { jwtAccessToken } = cookies
-                if(jwtAccessToken){
-                  try{
-                    const shopObj = await verifyJWT(jwtAccessToken,JWT_SECRET)
-                    let cachedData = cache.get(shopObj.shop)
+                const validatedData = await validateRequestAndGetShop(request)
+                if(validatedData.validated){
+                    const shop = validatedData.data
+                    let cachedData = cache.get(shop)
                     cachedData.accessToken = accessToken
                     cachedData.refreshToken = refreshToken
                     cachedData.profile = profile
-                    cache.set(shopObj.shop,cachedData)
-                    console.log("AUTHORIZED GOOGLE",cache.get(shopObj.shop));
+                    cache.set(shop,cachedData)
+                    console.log("AUTHORIZED GOOGLE",cache.get(shop));
                     return done(null, profile);
-                  }
-                  catch(e){
-                    return done(e, null);
-                  }
                 }
                 else{
-                    return done({message:"No JWT Token"}, null);
+                    return done(validatedData.data, null);
                 }
             });
         }
@@ -83,13 +72,16 @@ const passportAuth=(server)=>{
     ))
     
     //Check authentication for all static requests
-    const restrictAccess = (ctx) => {
-        if (!ctx.isAuthenticated()) {
-            ctx.redirect("/");
+    const restrictAccess = async(ctx) => {
+        if (ctx.isAuthenticated()) {
+            const validatedData = await validateRequestAndGetShop(request)
+            if(validatedData.validated){
+                const shop = validatedData.data
+                ctx.redirect(`https://${shop}.myshopify.com/admin/apps/${APP_NAME}/view`);
+                return
+            }
         }
-        else{
-            ctx.redirect(`https://${shop}.myshopify.com/admin/apps/${APP_NAME}/view`);
-        }
+        ctx.redirect("/");
     };
     server.use(route.get('/login',restrictAccess))
 
@@ -101,14 +93,6 @@ const passportAuth=(server)=>{
     }))
 }
 
-function verifyJWT(jwtAccessToken,JWT_SECRET){
-    return new Promise(async(resolve,reject)=>{
-        jwt.verify(jwtAccessToken,JWT_SECRET,(err,shop)=>{
-        if(err) reject(err)
-        resolve(shop)
-        })
-    })
 
-}
 
-export default passportAuth;
+export default createGoogleAuth;
