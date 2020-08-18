@@ -67,7 +67,7 @@ const createGoogleAuth=(server)=>{
     server.use(route.get('/auth/google/callback',
         passport.authenticate('google', {
             successRedirect: '/login',
-            failureRedirect: '/'
+            failureRedirect: `https://${shop}/admin/apps/${APP_NAME}`
         })
     ))
     
@@ -81,7 +81,7 @@ const createGoogleAuth=(server)=>{
                 return
             }
         }
-        ctx.redirect("/");
+        ctx.redirect(`https://${shop}/admin/apps/${APP_NAME}`);
     };
     server.use(route.get('/login',restrictAccess))
 
@@ -89,7 +89,7 @@ const createGoogleAuth=(server)=>{
     //Logout google
     server.use(route.get('/logout', (ctx) => {
             ctx.logout()
-            ctx.redirect('/')
+            ctx.redirect(`https://${shop}/admin/apps/${APP_NAME}/`);
     }))
 }
 
