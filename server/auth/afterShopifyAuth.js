@@ -1,7 +1,7 @@
 
 
 import dotenv from "dotenv";
-import cache from "../../cache/app"
+import cache from "../../cache/operator"
 import  { registerWebhooks}  from '../handlers/register-webhooks';
 import  { ApiVersion } from "@shopify/koa-shopify-graphql-proxy";
 import jwt from 'jsonwebtoken'
@@ -20,11 +20,6 @@ async function afterShopifyAuth(ctx) {
   const jwtAccessToken = jwt.sign({shop:shop},JWT_SECRET)
   ctx.cookies.set("jwtAccessToken", jwtAccessToken, {
     httpOnly: true,
-    secure: true,
-    sameSite: "none"
-  });
-  ctx.cookies.set("shopOrigin", shop, {
-    httpOnly: false,
     secure: true,
     sameSite: "none"
   });

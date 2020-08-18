@@ -4,7 +4,7 @@ import route from 'koa-route'
 import session from "koa-session";
 import { Strategy as GoogleStrategy } from "passport-google-oauth2"
 import dotenv from "dotenv";
-import cache from "../../cache/app"
+import cache from "../../cache/operator"
 import validateRequestAndGetShop from "./jwtAuthenticate"
 dotenv.config();
 const { GOOGLE_ID,GOOGLE_SECRET,HOST,GOOGLE_SCOPES,APP_NAME} = process.env;
