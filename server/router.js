@@ -4,7 +4,7 @@ import  {receiveWebhook}  from '@shopify/koa-shopify-webhooks';
 import  koaBody from 'koa-body';
 
 module.exports={
-    init:(router,{SHOPIFY_API_SECRET_KEY,JWT_SECRET},handle)=>{
+    init:(router,{SHOPIFY_API_SECRET_KEY},handle)=>{
 
         const webhook = receiveWebhook({secret: SHOPIFY_API_SECRET_KEY});
 
