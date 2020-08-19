@@ -29,7 +29,7 @@ const handle = app.getRequestHandler();
     createShopifyAuth({
       apiKey: SHOPIFY_API_KEY,
       secret: SHOPIFY_API_SECRET,
-      SHOPIFY_SCOPES: [SHOPIFY_SCOPES],
+      scopes: [SHOPIFY_SCOPES],
       afterAuth:afterShopifyAuth
     })
   );
