@@ -23,6 +23,7 @@ To clone [Shopify Google Auth](https://github.com/souvik131/shopify-google-auth)
 ```sh
 ~/ $ git clone https://github.com/souvik131/shopify-google-auth.git
 ~/ $ cd shopify-google-auth
+~/ $ npm i
 ~/ $ cp .env.example .env
 ~/ $ nano .env
 ```
