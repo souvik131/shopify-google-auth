@@ -50,7 +50,7 @@ Open the .env file and provide the following details
 ## Running
 
 ```sh
-~/ $ npm run-script start
+~/ $ npx next build && cross-env NODE_ENV=production node ./server/index.js
 ```
 
 ## License
