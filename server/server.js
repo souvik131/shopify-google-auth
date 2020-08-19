@@ -12,7 +12,7 @@ import afterShopifyAuth from "./auth/afterShopifyAuth"
 
 
 dotenv.config();
-const { SHOPIFY_API_SECRET, SHOPIFY_API_KEY, SCOPES ,HOST,JWT_SECRET,APP_NAME,LISTEN_IP,LISTEN_PORT} = process.env;
+const { SHOPIFY_API_SECRET, SHOPIFY_API_KEY, SHOPIFY_SCOPES ,LISTEN_IP,LISTEN_PORT} = process.env;
 const port = parseInt(process.env.PORT, 10) || LISTEN_PORT;
 const dev = process.env.NODE_ENV !== "production";
 const app = next({ dev });
@@ -29,7 +29,7 @@ const handle = app.getRequestHandler();
     createShopifyAuth({
       apiKey: SHOPIFY_API_KEY,
       secret: SHOPIFY_API_SECRET,
-      scopes: [SCOPES],
+      SHOPIFY_SCOPES: [SHOPIFY_SCOPES],
       afterAuth:afterShopifyAuth
     })
   );

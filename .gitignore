@@ -23,3 +23,6 @@ config/tunnel.pid
 
 #cache json
 cache/cache.json
+
+#shopify cli
+.shopify-cli.yml

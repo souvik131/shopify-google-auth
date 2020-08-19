@@ -4,7 +4,7 @@ import dotenv from "dotenv";
 import fs from 'fs';
 import path from "path";
 dotenv.config();
-const { CACHE_FILE_NAME} = process.env;
+const CACHE_FILE_NAME= "cache.json"
 let inMemory ={
     development:{},
     production:{}

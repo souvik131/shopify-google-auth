@@ -8,7 +8,7 @@ import cache from "../../cache/operator"
 import validateRequestAndGetShop from "./jwtAuthenticate"
 
 dotenv.config();
-const { GOOGLE_ID,GOOGLE_SECRET,HOST,GOOGLE_SCOPES,APP_NAME} = process.env;
+const { GOOGLE_ID,GOOGLE_SECRET,HOST,GOOGLE_SCOPES,SHOPIFY_APP_NAME} = process.env;
 
 
 const createGoogleAuth=(server)=>{
@@ -83,11 +83,11 @@ const createGoogleAuth=(server)=>{
                     secure: true,
                     sameSite: "none"
                 });
-                ctx.redirect(`https://${shop}/admin/apps/${APP_NAME}/`);
+                ctx.redirect(`https://${shop}/admin/apps/${SHOPIFY_APP_NAME}/`);
                 return
             }
         }
-        ctx.redirect(`https://${shop}/admin/apps/${APP_NAME}/`);
+        ctx.redirect(`https://${shop}/admin/apps/${SHOPIFY_APP_NAME}/`);
     };
     server.use(route.get('/login',restrictAccess))
 

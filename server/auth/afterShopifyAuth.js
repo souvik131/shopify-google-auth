@@ -8,7 +8,7 @@ import jwt from 'jsonwebtoken'
 import getSubscriptionUrl  from '../handlers/mutations/get-subscription-url';
 
 dotenv.config();
-const { HOST,JWT_SECRET,APP_NAME} = process.env;
+const { HOST,JWT_SECRET,SHOPIFY_APP_NAME} = process.env;
 
 async function afterShopifyAuth(ctx) {
   //Auth token and shop available in session
@@ -37,7 +37,7 @@ async function afterShopifyAuth(ctx) {
     ApiVersion.October19
   ) 
 
-  ctx.redirect(`https://${shop}/admin/apps/${APP_NAME}`);
+  ctx.redirect(`https://${shop}/admin/apps/${SHOPIFY_APP_NAME}`);
   // await getSubscriptionUrl(ctx, accessToken, shop);
   // ctx.redirect("/");
 }
