@@ -26,6 +26,9 @@ To clone [Shopify Google Auth](https://github.com/souvik131/shopify-google-auth)
 ~/ $ cp .env.example .env
 ~/ $ nano .env
 ```
+
+## Setup
+
 Open the .env file and provide the following details
 
 - *SHOPIFY_APP_NAME* is your app name in shopify partner.
@@ -42,6 +45,12 @@ Open the .env file and provide the following details
 
 > [!NOTE]
 > .env is not tracked by git. You need to edit it in your environment seperately.
+
+## Running
+
+```sh
+~/ $ npm run-script start
+```
 
 ## License
 
