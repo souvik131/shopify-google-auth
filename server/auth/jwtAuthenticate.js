@@ -33,11 +33,11 @@ function validateRequestAndGetShop(request){
                 resolve({validated:true,data:shopObj.shop})
             }
             catch(e){
-                reject({validated:false,data:e})
+                resolve({validated:false,data:e})
             }
         }
         else{
-            reject({validated:false,data:{message:"No JWT Token"}})
+            resolve({validated:false,data:{message:"No JWT Token"}})
         }
     })
 }
